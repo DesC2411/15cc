@@ -10,7 +10,8 @@
     "dev": "concurrently -k -n server,client -c red,cyan \"npm run dev -w server\" \"npm run dev -w client\"",
     "build": "npm run build -w server && npm run build -w client",
     "typecheck": "npm run typecheck -w server && npm run typecheck -w client",
-    "test": "npm test -w server"
+    "test": "npm test -w server",
+    "inbox": "node tools/asset-inbox.mjs"
   },
   "devDependencies": {
     "concurrently": "^10.0.7"

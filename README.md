@@ -28,6 +28,28 @@ Biến môi trường của server:
 | `npm run typecheck` | Kiểm tra kiểu TypeScript cả hai |
 | `npm test` | Test server: bộ lọc từ bậy + test tích hợp phòng chat (tự chạy server ở cổng 2611–2612) |
 | `npm run build` | Build server (`server/dist`) và client (`client/dist`) |
+| `npm run inbox` | Hộp nhận ảnh (cổng 5199): nhận ảnh ChatGPT gửi thẳng vào `assets-src/` (xem dưới) |
+
+## Hộp nhận ảnh (`tools/asset-inbox.mjs`)
+
+Server nhỏ chỉ nghe `127.0.0.1:5199`, để Claude lưu ảnh ChatGPT vào `assets-src/concepts/` hoặc `assets-src/refs/` mà không phải tải tay qua thư mục Downloads.
+
+- Chỉ nhận request từ `https://chatgpt.com` (hoặc không có Origin, ví dụ curl). Chỉ ghi file `snake_case` có đuôi `.png/.jpg/.webp`, có kiểm tra đúng là ảnh. Không ghi đè file có sẵn, trừ khi thêm `&overwrite=1`.
+- Trang ChatGPT chặn `fetch` tới localhost (CSP `connect-src`) nhưng không chặn gửi form, nên ảnh được gửi bằng form `multipart/form-data`, trường `file`. Tab sẽ chuyển sang trang kết quả của localhost, sau đó bấm Back để quay lại cuộc trò chuyện.
+- Đoạn JS chạy trong tab ChatGPT (qua `javascript_tool` của Claude in Chrome), nhớ đổi `path`:
+
+```js
+const img = [...document.querySelectorAll('img')].find(i => i.naturalWidth >= 512 && i.alt.startsWith('Ảnh được tạo'));
+const blob = await fetch(img.src).then(r => r.blob());
+const form = Object.assign(document.createElement('form'), { method: 'POST', enctype: 'multipart/form-data',
+  action: 'http://127.0.0.1:5199/upload?path=concepts/<khu>/<ten_asset>_v<N>.png' });
+const input = Object.assign(document.createElement('input'), { type: 'file', name: 'file' });
+const dt = new DataTransfer(); dt.items.add(new File([blob], 'image.png', { type: blob.type }));
+input.files = dt.files; form.append(input); document.body.append(form); form.submit();
+```
+
+- Có nhiều ảnh trong cuộc trò chuyện thì chọn đúng ảnh trước khi gửi (`find` lấy ảnh đầu tiên khớp).
+- Gửi từ máy bằng curl: `curl -F "file=@anh.png" "http://127.0.0.1:5199/upload?path=concepts/central/ten_v1.png"`.
 
 ## Điều khiển
 

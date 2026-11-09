@@ -40,6 +40,8 @@ client/            # web game (Vite)
     net/           # kết nối Colyseus
   public/assets/   # .glb, texture, âm thanh đã tối ưu, dùng trong game
 server/            # Colyseus rooms
+shared/            # kiểu dữ liệu, tên tin nhắn dùng chung client/server
+tools/             # công cụ dev (asset-inbox.mjs: hộp nhận ảnh từ ChatGPT)
 worklogs/          # nhật ký mỗi phiên làm việc, 1 file / phiên (mục 9)
 content/           # dữ liệu nội dung: landmarks.json, secrets.json, events.json, npc_dialogs.json
 assets-src/        # nguồn asset chưa tối ưu
@@ -130,7 +132,11 @@ ChatGPT chỉ tạo **ảnh 2D**. Ảnh dùng làm concept, UI, icon tem, chân 
 4. Nếu cần ảnh tham khảo (từ bước tra Google) thì đính kèm bằng `file_upload`.
 5. Dán prompt theo **mẫu ở mục 5.2**, gửi, rồi chờ ảnh tạo xong (chụp màn hình kiểm tra định kỳ, không spam).
 6. Kiểm tra ảnh theo **checklist ở mục 5.3**. Không đạt thì yêu cầu ChatGPT sửa cụ thể (ví dụ: "nền trắng trơn hơn", "bỏ chữ", "đúng 3 tầng").
-7. **Tải ảnh:** hỏi người dùng xác nhận trước khi tải (nói rõ tên file và nguồn), hoặc nhờ người dùng tự tải. Lưu vào `assets-src/concepts/<khu>/<ten_asset>_v<N>.png`.
+7. **Lưu ảnh:** hỏi người dùng xác nhận trước khi lưu (nói rõ tên file và nguồn). Lưu vào `assets-src/concepts/<khu>/<ten_asset>_v<N>.png`.
+   - **Cách chính: hộp nhận ảnh** (`npm run inbox`, `tools/asset-inbox.mjs`, chỉ nghe `127.0.0.1:5199`). Chạy đoạn JS trong `README.md` (mục "Hộp nhận ảnh") bằng `javascript_tool` trong tab ChatGPT: lấy blob ảnh rồi gửi bằng **form** (trang ChatGPT chặn `fetch` tới localhost bằng CSP, nhưng cho gửi form). Sau khi gửi, bấm Back để quay lại cuộc trò chuyện.
+   - Có nhiều ảnh trong cuộc trò chuyện thì chọn đúng ảnh trước khi gửi. Server không ghi đè file có sẵn; muốn ghi đè phải hỏi người dùng rồi mới thêm `&overwrite=1`.
+   - Mở file đã lưu bằng Read để kiểm tra ảnh đầy đủ.
+   - Dự phòng: nút tải của ChatGPT (file vào Downloads) hoặc nhờ người dùng tự tải.
 8. Ghi prompt đã dùng vào `assets-src/concepts/PROMPTS.md` (tên asset, prompt, ngày, phiên bản) để tạo lại được khi cần.
 9. Nếu tải xuống thất bại hoặc bị chặn, báo cho người dùng, không thử vòng vèo.
 
