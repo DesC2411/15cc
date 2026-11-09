@@ -39,7 +39,8 @@
 - Toạ độ landmark là tạm, chưa theo bản đồ thật.
 
 **Việc dở dang / bước tiếp theo:**
-- [ ] Commit đầu tiên (chờ người dùng đồng ý).
+- [x] Commit đầu tiên `c4da16c` trên nhánh `master` (người dùng đồng ý). Git trên máy chưa cài `user.name`/`user.email`; commit dùng tạm tên `hoangg2002` + email tài khoản, chỉ cho lệnh đó, không lưu cấu hình.
+- [ ] Người dùng tự cài `git config --global user.name/user.email`.
 - [ ] Kiểm tra khung 375×812 (DevTools device mode).
 - [ ] Giai đoạn 1: điều khiển nhân vật (WASD + joystick ảo), camera đi theo, Rapier, checkpoint landmark → tem + Thẻ Bí Mật.
 - [ ] Tra nguồn cho Thẻ Bí Mật 4 landmark (mục 4.2), đặt toạ độ theo bản đồ thật.
