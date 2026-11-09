@@ -1,0 +1,12 @@
+{
+  "app.title": "Phượng Đỏ Phiêu Lưu",
+  "net.connecting": "Đang kết nối…",
+  "net.connected": "Khu {zone} · {count} người",
+  "net.error": "Không kết nối được máy chủ",
+  "zone.central": "Trung tâm",
+  "zone.lachtray": "Lạch Tray",
+  "zone.doson": "Đồ Sơn",
+  "zone.catba": "Cát Bà – Lan Hạ",
+  "zone.bachdang": "Bạch Đằng – Thuỷ Nguyên",
+  "zone.port": "Cảng biển"
+}

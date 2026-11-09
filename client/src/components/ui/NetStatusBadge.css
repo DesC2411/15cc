@@ -1,0 +1,28 @@
+.net-badge {
+  position: absolute;
+  top: max(12px, env(safe-area-inset-top));
+  left: 50%;
+  transform: translateX(-50%);
+  min-height: var(--tap-min);
+  display: flex;
+  align-items: center;
+  padding: 0 18px;
+  border: var(--border-w) solid var(--langur-black);
+  border-radius: var(--radius);
+  background: var(--ui-bg);
+  box-shadow: var(--shadow);
+  font-weight: 600;
+  font-size: 15px;
+  white-space: nowrap;
+  pointer-events: none;
+}
+
+.net-badge--connected {
+  border-color: var(--phuong-red-dark);
+}
+
+.net-badge--error {
+  background: var(--phuong-red);
+  border-color: var(--phuong-red-dark);
+  color: #fff;
+}

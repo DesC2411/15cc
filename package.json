@@ -1,0 +1,14 @@
+{
+  "name": "phuong-do-phieu-luu",
+  "private": true,
+  "version": "0.0.0",
+  "workspaces": ["client", "server"],
+  "scripts": {
+    "dev": "concurrently -k -n server,client -c red,cyan \"npm run dev -w server\" \"npm run dev -w client\"",
+    "build": "npm run build -w server && npm run build -w client",
+    "typecheck": "npm run typecheck -w server && npm run typecheck -w client"
+  },
+  "devDependencies": {
+    "concurrently": "^10.0.7"
+  }
+}

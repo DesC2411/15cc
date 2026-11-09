@@ -1,0 +1,252 @@
+{
+  "_note": "Lấy từ CLAUDE.md mục 6. calendar=lunar: tháng/ngày âm lịch, phải quy đổi sang dương lịch cho từng năm (điền vào 'dates'). Lễ hội lớn đổi ngày theo năm, đầu năm phải tra lại lịch chính thức.",
+  "events": [
+    {
+      "id": "tet_nguyen_dan",
+      "name": "Tết Nguyên đán",
+      "calendar": "lunar",
+      "start": { "month": 1, "day": 1 },
+      "end": { "month": 1, "day": 3 },
+      "inGame": "Trang trí Tết, Rồng Hoa Vàng xuất hiện nhiều hơn",
+      "dates": {},
+      "source": [],
+      "verified": true
+    },
+    {
+      "id": "hoi_vat_vinh_khe",
+      "name": "Hội vật làng Vĩnh Khê",
+      "calendar": "lunar",
+      "start": { "month": 1, "day": 6 },
+      "end": { "month": 1, "day": 7 },
+      "mainDay": { "month": 1, "day": 7 },
+      "inGame": "Mini-game vật chibi",
+      "dates": {},
+      "source": [
+        "https://sunparadiseland.com/SunParadiseLandCatBa/tin-tuc/hoi-vat-lang-vinh-khe-di-san-van-hoa-lich-su-dac-sac-hai-phong-16967",
+        "https://plo.vn/ron-rang-le-hoi-vat-gan-700-nam-tuoi-o-hai-phong-post776400.html"
+      ],
+      "verified": true
+    },
+    {
+      "id": "boi_trai_an_duong",
+      "name": "Hội bơi trải An Dương",
+      "calendar": "lunar",
+      "start": { "month": 1, "day": null },
+      "end": { "month": 1, "day": null },
+      "inGame": "Đua thuyền 4 người",
+      "dates": {},
+      "source": ["https://baovanhoa.vn/the-thao/dau-xuan-ve-an-duong-vui-hoi-boi-trai-va-vat-co-truyen-21464.html"],
+      "verified": false,
+      "todo": "Chưa rõ ngày cụ thể"
+    },
+    {
+      "id": "hoi_vat_co_trai",
+      "name": "Hội vật Cổ Trai",
+      "calendar": "lunar",
+      "start": { "month": 1, "day": null },
+      "end": { "month": 1, "day": null },
+      "inGame": "Mini-game vật chibi",
+      "dates": {},
+      "source": ["https://lsvn.vn/hai-phong-hoi-vat-lang-co-trai-duoc-cong-nhan-la-di-san-van-hoa-phi-vat-the-quoc-gia-a158686.html"],
+      "verified": false,
+      "todo": "Chưa tìm được ngày chính thức"
+    },
+    {
+      "id": "le_hoi_le_chan",
+      "name": "Lễ hội truyền thống Nữ tướng Lê Chân",
+      "calendar": "lunar",
+      "start": { "month": 2, "day": 7 },
+      "end": { "month": 2, "day": 10 },
+      "mainDay": { "month": 2, "day": 8 },
+      "inGame": "Quest Lê Chân, rước kiệu",
+      "dates": {},
+      "source": [
+        "https://mia.vn/cam-nang-du-lich/dam-da-ban-sac-van-hoa-voi-le-hoi-ba-le-chan-hai-phong-4636",
+        "https://baodautu.vn/le-hoi-truyen-thong-nu-tuong-le-chan-nam-2023-dien-ra-tu-262---282-d184160.html",
+        "https://lsvn.vn/hai-phong-khai-mac-le-hoi-truyen-thong-nu-tuong-le-chan-nam-2026-a170876.html"
+      ],
+      "verified": true
+    },
+    {
+      "id": "den_nghe_le_18_8",
+      "name": "Dâng lễ Lê Chân ở đền Nghè (18/8 âm lịch)",
+      "calendar": "lunar",
+      "start": { "month": 8, "day": 18 },
+      "end": { "month": 8, "day": 18 },
+      "inGame": "Sự kiện nhỏ ở đền Nghè",
+      "dates": {},
+      "source": ["https://mia.vn/cam-nang-du-lich/dam-da-ban-sac-van-hoa-voi-le-hoi-ba-le-chan-hai-phong-4636"],
+      "verified": true
+    },
+    {
+      "id": "den_nghe_le_25_12",
+      "name": "Dâng lễ Lê Chân ở đền Nghè (25/12 âm lịch)",
+      "calendar": "lunar",
+      "start": { "month": 12, "day": 25 },
+      "end": { "month": 12, "day": 25 },
+      "inGame": "Sự kiện nhỏ ở đền Nghè",
+      "dates": {},
+      "source": ["https://mia.vn/cam-nang-du-lich/dam-da-ban-sac-van-hoa-voi-le-hoi-ba-le-chan-hai-phong-4636"],
+      "verified": true
+    },
+    {
+      "id": "le_hoi_hoa_phuong_do",
+      "name": "Lễ hội Hoa Phượng Đỏ",
+      "calendar": "solar",
+      "start": { "month": 3, "day": null },
+      "end": { "month": 5, "day": 31 },
+      "inGame": "Mưa phượng, Cánh Phượng x2, concert ảo ở Nhà hát",
+      "dates": {
+        "2026": { "opening": "2026-05-08T19:30:00+07:00", "peakStart": "2026-05-08", "peakEnd": "2026-05-14", "theme": "Hải Phòng – Hội tụ – Tỏa sáng" }
+      },
+      "source": [
+        "https://daibieunhandan.vn/le-hoi-hoa-phuong-do-2026-se-khai-mac-ngay-8-5-10415633.html",
+        "https://lsvn.vn/hai-phong-khai-mac-le-hoi-hoa-phuong-do-2026-a172555.html"
+      ],
+      "verified": true,
+      "todo": "Ngày bắt đầu (cuối tháng 3) đổi theo năm, tra lại mỗi năm"
+    },
+    {
+      "id": "giai_phong_hai_phong",
+      "name": "Ngày Giải phóng Hải Phòng (13/5/1955)",
+      "calendar": "solar",
+      "start": { "month": 5, "day": 13 },
+      "end": { "month": 5, "day": 13 },
+      "sinceYear": 1955,
+      "inGame": "Sự kiện lớn nhất năm",
+      "dates": {
+        "2026": { "start": "2026-05-13", "note": "Kỷ niệm 71 năm, đêm hội 20h tại quảng trường Trung tâm Chính trị – Hành chính (Bắc sông Cấm)" }
+      },
+      "source": [
+        "https://daibieunhandan.vn/le-hoi-hoa-phuong-do-2026-se-khai-mac-ngay-8-5-10415633.html",
+        "https://lsvn.vn/hai-phong-khai-mac-le-hoi-hoa-phuong-do-2026-a172555.html"
+      ],
+      "verified": true
+    },
+    {
+      "id": "mua_vai_thanh_ha",
+      "name": "Mùa vải thiều Thanh Hà",
+      "calendar": "solar",
+      "start": { "month": 5, "day": null },
+      "end": { "month": 6, "day": 30 },
+      "inGame": "Sự kiện hái vải (khu Xứ Đông)",
+      "dates": {
+        "2026": { "start": "2026-05-22", "end": "2026-05-24", "note": "Tuần lễ quảng bá vải và sản phẩm OCOP" }
+      },
+      "source": ["https://mekongasean.vn/ket-noi-tieu-thu-huong-den-du-lich-sinh-thai-vung-vai-thieu-thanh-ha-55420.html"],
+      "verified": true,
+      "todo": "Mùa vụ cuối tháng 5 – tháng 6; ngày sự kiện đổi theo năm"
+    },
+    {
+      "id": "le_hoi_xa_ma",
+      "name": "Lễ hội Xa Mã – rước kiệu đình Hoàng Châu",
+      "calendar": "lunar",
+      "start": { "month": 6, "day": 10 },
+      "end": { "month": 6, "day": 10 },
+      "mainDay": { "month": 6, "day": 10 },
+      "inGame": "Diễu hành ngựa gỗ, rước kiệu",
+      "dates": {},
+      "source": [
+        "https://en.haiphong.gov.vn/news/xa-ma-horse-wagon-and-palanquin-procession-festival-in-hoang-chau-communal-house-556127",
+        "https://www.vietnamplus.vn/kham-pha-le-hoi-xa-ma-di-san-van-hoa-phi-vat-the-quoc-gia-post1121913.vnp"
+      ],
+      "verified": true
+    },
+    {
+      "id": "sap_nhap_hai_duong",
+      "name": "Hải Dương sáp nhập vào Hải Phòng (1/7/2025)",
+      "calendar": "solar",
+      "start": { "month": 7, "day": 1 },
+      "end": { "month": 7, "day": 1 },
+      "sinceYear": 2025,
+      "inGame": "Kỷ niệm, mở khu Xứ Đông",
+      "dates": {},
+      "source": ["https://vneconomy.vn/chinh-thuc-thanh-lap-hai-phong-moi.htm"],
+      "verified": true
+    },
+    {
+      "id": "mua_bien",
+      "name": "Mùa biển Đồ Sơn, Cát Bà",
+      "calendar": "solar",
+      "start": { "month": 6, "day": 1 },
+      "end": { "month": 8, "day": 31 },
+      "inGame": "Giải đua kayak, bóng chuyền bãi biển",
+      "dates": {},
+      "source": [],
+      "verified": true,
+      "todo": "Mùa du lịch, không phải ngày lễ"
+    },
+    {
+      "id": "thanh_lap_thanh_pho",
+      "name": "Ngày thành lập thành phố Hải Phòng (19/7/1888)",
+      "calendar": "solar",
+      "start": { "month": 7, "day": 19 },
+      "end": { "month": 7, "day": 19 },
+      "sinceYear": 1888,
+      "inGame": "Thẻ Bí Mật lịch sử",
+      "dates": {},
+      "source": ["https://en.haiphong.gov.vn/cultural-traditional-events/important-festivals-and-political-events-of-haiphong-335579"],
+      "verified": true
+    },
+    {
+      "id": "choi_trau_vong_loai",
+      "name": "Vòng loại chọi trâu Đồ Sơn",
+      "calendar": "lunar",
+      "start": { "month": 6, "day": 1 },
+      "end": { "month": 6, "day": 9 },
+      "inGame": "Vòng loại \"đua trâu\" (không cảnh húc nhau)",
+      "dates": {
+        "2026": { "start": "2026-07-14", "end": "2026-07-22" }
+      },
+      "source": [
+        "https://lsvn.vn/hai-phong-le-hoi-choi-trau-do-son-2026-khoi-phuc-2-vong-dau-theo-truyen-thong-a174547.html",
+        "https://baophapluat.vn/le-hoi-choi-trau-do-son-2026-diem-nhan-du-lich-dac-sac-tai-hai-phong.html"
+      ],
+      "verified": true
+    },
+    {
+      "id": "choi_trau_do_son",
+      "name": "Lễ hội chọi trâu Đồ Sơn",
+      "calendar": "lunar",
+      "start": { "month": 8, "day": 1 },
+      "end": { "month": 8, "day": 16 },
+      "mainDay": { "month": 8, "day": 9 },
+      "inGame": "Chung kết \"đua trâu\" (không cảnh húc nhau)",
+      "dates": {
+        "2026": { "mainDay": "2026-09-19" }
+      },
+      "source": [
+        "https://lsvn.vn/hai-phong-le-hoi-choi-trau-do-son-2026-khoi-phuc-2-vong-dau-theo-truyen-thong-a174547.html",
+        "https://baophapluat.vn/le-hoi-choi-trau-do-son-2026-diem-nhan-du-lich-dac-sac-tai-hai-phong.html"
+      ],
+      "verified": true
+    },
+    {
+      "id": "cau_tan_vu_lach_huyen",
+      "name": "Khánh thành cầu Tân Vũ – Lạch Huyện (2/9/2017)",
+      "calendar": "solar",
+      "start": { "month": 9, "day": 2 },
+      "end": { "month": 9, "day": 2 },
+      "sinceYear": 2017,
+      "inGame": "Thẻ Bí Mật, đua xe trên cầu",
+      "dates": {},
+      "source": [
+        "https://baophapluat.vn/thu-tuong-nguyen-xuan-phuc-cat-bang-khanh-thanh-cau-vuot-bien-dai-nhat-dong-nam-a-post255515.html",
+        "https://structurae.net/structures/tan-vu-lach-huyen-bridge"
+      ],
+      "verified": true
+    },
+    {
+      "id": "vleague_hai_phong",
+      "name": "Trận sân nhà CLB Hải Phòng ở Lạch Tray",
+      "calendar": "fixture",
+      "start": null,
+      "end": null,
+      "inGame": "Sự kiện cổ vũ trong game",
+      "dates": {},
+      "source": [],
+      "verified": false,
+      "todo": "Lấy lịch thi đấu thật mỗi mùa V.League"
+    }
+  ]
+}

@@ -1,0 +1,61 @@
+{
+  "_note": "Toạ độ là vị trí grey-box tạm (mét, gốc ở giữa khu), sẽ chỉnh ở giai đoạn 1. Thẻ Bí Mật đang là BẢN NHÁP, verified=false cho tới khi đối chiếu đủ 2 nguồn (CLAUDE.md mục 3.5, 4.2).",
+  "landmarks": [
+    {
+      "id": "nha_hat_lon",
+      "name": "Nhà hát lớn Hải Phòng",
+      "zone": "central",
+      "position": [0, 0, -30],
+      "rotationY": 0,
+      "size": [30, 18, 22],
+      "color": "colonial-cream",
+      "model": "lm_nha_hat_lon.glb",
+      "secret": "Nhà hát lớn Hải Phòng do người Pháp xây dựng đầu thế kỷ 20, mang phong cách kiến trúc Pháp với mái vòm và hàng cột trang trí.",
+      "source": [],
+      "verified": false,
+      "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Nh%C3%A0%20h%C3%A1t%20l%E1%BB%9Bn%20H%E1%BA%A3i%20Ph%C3%B2ng"
+    },
+    {
+      "id": "buu_dien",
+      "name": "Bưu điện Hải Phòng",
+      "zone": "central",
+      "position": [40, 0, 10],
+      "rotationY": 0,
+      "size": [24, 12, 16],
+      "color": "colonial-cream",
+      "model": "lm_buu_dien.glb",
+      "secret": "",
+      "source": [],
+      "verified": false,
+      "mapsUrl": "https://www.google.com/maps/search/?api=1&query=B%C6%B0u%20%C4%91i%E1%BB%87n%20H%E1%BA%A3i%20Ph%C3%B2ng"
+    },
+    {
+      "id": "bao_tang",
+      "name": "Bảo tàng Hải Phòng",
+      "zone": "central",
+      "position": [-40, 0, 10],
+      "rotationY": 0,
+      "size": [22, 12, 14],
+      "color": "brick-red",
+      "model": "lm_bao_tang.glb",
+      "secret": "",
+      "source": [],
+      "verified": false,
+      "mapsUrl": "https://www.google.com/maps/search/?api=1&query=B%E1%BA%A3o%20t%C3%A0ng%20H%E1%BA%A3i%20Ph%C3%B2ng"
+    },
+    {
+      "id": "den_nghe",
+      "name": "Đền Nghè",
+      "zone": "central",
+      "position": [0, 0, 45],
+      "rotationY": 3.14159,
+      "size": [16, 8, 14],
+      "color": "brick-red",
+      "model": "lm_den_nghe.glb",
+      "secret": "Đền Nghè thờ Nữ tướng Lê Chân, người có công lập nên trang An Biên, được xem là tiền thân của Hải Phòng.",
+      "source": [],
+      "verified": false,
+      "mapsUrl": "https://www.google.com/maps/search/?api=1&query=%C4%90%E1%BB%81n%20Ngh%C3%A8%20H%E1%BA%A3i%20Ph%C3%B2ng"
+    }
+  ]
+}

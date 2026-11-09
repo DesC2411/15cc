@@ -1,0 +1,14 @@
+node_modules/
+dist/
+*.tsbuildinfo
+.env
+.env.*
+!.env.example
+*.log
+.DS_Store
+Thumbs.db
+
+# File nguồn lớn (model thô, .blend): cân nhắc Git LFS trước khi bỏ dòng dưới
+assets-src/models-raw/*
+!assets-src/models-raw/.gitkeep
+*.blend1
