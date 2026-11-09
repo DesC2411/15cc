@@ -1,0 +1,223 @@
+/* HUD giai đoạn 1: joystick, nút hành động, bộ đếm tem, Thẻ Bí Mật. Mobile-first, nút chạm ≥ 44px. */
+
+.joystick {
+  position: absolute;
+  left: max(20px, env(safe-area-inset-left));
+  bottom: max(28px, env(safe-area-inset-bottom));
+  width: 132px;
+  height: 132px;
+  border: var(--border-w) solid rgba(43, 43, 43, 0.5);
+  border-radius: 50%;
+  background: rgba(255, 248, 240, 0.45);
+  display: grid;
+  place-items: center;
+  touch-action: none;
+  z-index: 20;
+}
+
+.joystick__knob {
+  width: 58px;
+  height: 58px;
+  border: var(--border-w) solid var(--phuong-red-dark);
+  border-radius: 50%;
+  background: var(--phuong-red);
+  box-shadow: var(--shadow);
+  pointer-events: none;
+}
+
+.action-btn {
+  position: absolute;
+  right: max(24px, env(safe-area-inset-right));
+  bottom: max(48px, env(safe-area-inset-bottom));
+  width: 84px;
+  height: 84px;
+  border: var(--border-w) solid var(--phuong-red-dark);
+  border-radius: 50%;
+  background: var(--sun-yellow);
+  box-shadow: var(--shadow);
+  font: inherit;
+  font-weight: 800;
+  font-size: 16px;
+  color: var(--langur-black);
+  touch-action: none;
+  z-index: 20;
+}
+
+.action-btn:active {
+  transform: translateY(2px);
+  box-shadow: none;
+}
+
+.stamp-counter {
+  position: absolute;
+  top: max(68px, calc(env(safe-area-inset-top) + 56px));
+  left: 50%;
+  transform: translateX(-50%);
+  min-height: var(--tap-min);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 0 16px;
+  border: var(--border-w) solid var(--phuong-red-dark);
+  border-radius: var(--radius);
+  background: var(--ui-bg);
+  box-shadow: var(--shadow);
+  font-weight: 800;
+  font-size: 15px;
+  white-space: nowrap;
+  pointer-events: none;
+  z-index: 20;
+}
+
+.stamp-counter__icon {
+  width: 18px;
+  height: 18px;
+  border: 3px dashed var(--phuong-red);
+  border-radius: 50%;
+}
+
+/* Thẻ Bí Mật: bottom sheet trên điện thoại, hộp giữa màn hình trên desktop */
+.secret-card {
+  position: absolute;
+  left: 12px;
+  right: 12px;
+  bottom: max(12px, env(safe-area-inset-bottom));
+  max-height: 70vh;
+  overflow-y: auto;
+  padding: 20px 20px 18px;
+  border: var(--border-w) solid var(--phuong-red-dark);
+  border-radius: 22px;
+  background: var(--ui-bg);
+  box-shadow: 0 6px 0 rgba(0, 0, 0, 0.18);
+  z-index: 100;
+  animation: card-in 220ms ease-out;
+  user-select: text;
+}
+
+@media (min-width: 821px) {
+  .secret-card {
+    left: 50%;
+    right: auto;
+    width: 440px;
+    transform: translateX(-50%);
+    bottom: 32px;
+    animation-name: card-in-desktop;
+  }
+}
+
+@keyframes card-in {
+  from {
+    transform: translateY(30px);
+    opacity: 0;
+  }
+}
+
+@keyframes card-in-desktop {
+  from {
+    transform: translate(-50%, 30px);
+    opacity: 0;
+  }
+}
+
+.secret-card__close {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  width: var(--tap-min);
+  height: var(--tap-min);
+  border: none;
+  border-radius: 50%;
+  background: transparent;
+  font: inherit;
+  font-size: 30px;
+  line-height: 1;
+  color: var(--langur-black);
+}
+
+.secret-card__new {
+  display: inline-block;
+  margin-bottom: 6px;
+  padding: 4px 12px;
+  border-radius: 999px;
+  background: var(--sun-yellow);
+  font-weight: 800;
+  font-size: 14px;
+}
+
+.secret-card__title {
+  margin: 0 40px 10px 0;
+  font-size: 22px;
+  font-weight: 800;
+  color: var(--phuong-red-dark);
+}
+
+.secret-card__heading {
+  margin: 0 0 4px;
+  font-size: 15px;
+  font-weight: 800;
+}
+
+.secret-card__text {
+  margin: 0 0 8px;
+  font-size: 15px;
+  line-height: 1.5;
+}
+
+.secret-card__draft {
+  margin: 0 0 8px;
+  padding: 6px 10px;
+  border: 2px dashed var(--phuong-red);
+  border-radius: 10px;
+  font-size: 13px;
+  color: var(--phuong-red-dark);
+}
+
+.secret-card__actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 12px;
+}
+
+.btn {
+  flex: 1;
+  min-height: var(--tap-min);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 14px;
+  border: var(--border-w) solid var(--langur-black);
+  border-radius: var(--radius);
+  background: #fff;
+  box-shadow: var(--shadow);
+  font: inherit;
+  font-weight: 800;
+  font-size: 15px;
+  color: var(--langur-black);
+  text-decoration: none;
+}
+
+.btn--stacked {
+  flex-direction: column;
+  line-height: 1.15;
+}
+
+.btn--stacked small {
+  font-size: 11px;
+  font-weight: 600;
+}
+
+.btn--primary {
+  border-color: var(--phuong-red-dark);
+  background: var(--phuong-red);
+  color: #fff;
+}
+
+.btn:active {
+  transform: translateY(2px);
+  box-shadow: none;
+}
+
+.btn:disabled {
+  opacity: 0.55;
+  box-shadow: none;
+}

@@ -1,48 +1,38 @@
-import { OrbitControls } from '@react-three/drei'
-import { colors, colorOf } from '../../theme/colors'
-import { landmarksInZone } from '../../systems/content'
+import { useMemo } from 'react'
+import { landmarksInZone, treePositions, zoneLayout } from '../../systems/content'
+import { ZoneGround } from '../../components/world/ZoneGround'
+import { Landmarks } from '../../components/world/Landmarks'
+import { FlamboyantTrees } from '../../components/world/FlamboyantTrees'
+import { SunLight } from '../../components/world/SunLight'
+import { LocalPlayer } from '../../components/player/LocalPlayer'
+import { CameraDrag } from '../../components/player/CameraDrag'
 import { RemotePlayers } from '../../components/player/RemotePlayers'
 
-const landmarks = landmarksInZone('central')
+const ZONE = 'central'
+const landmarks = landmarksInZone(ZONE)
+const layout = zoneLayout(ZONE)
 
 /**
- * Khu Trung tâm, giai đoạn 0: mặt đất + khối tạm cho landmark đọc từ content/landmarks.json.
- * Camera xoay tự do tạm thời; giai đoạn 1 thay bằng camera đi theo nhân vật.
+ * Khu Trung tâm, giai đoạn 1 (grey-box): mặt đất, đường, landmark, hàng phượng đọc từ content/.
+ * Phải nằm trong <Physics> vì dùng collider Rapier.
  */
 export function CentralScene() {
+  const trees = useMemo(() => treePositions(layout), [])
+
   return (
     <>
       <color attach="background" args={['#BFE3EC']} />
+      <fog attach="fog" args={['#BFE3EC', 90, 180]} />
       <hemisphereLight args={['#FFF4E0', '#8DB36B', 0.9]} />
-      <directionalLight position={[30, 50, 20]} intensity={1.4} color="#FFE8C2" castShadow />
+      <SunLight />
 
-      {/* Mặt đất */}
-      <mesh rotation-x={-Math.PI / 2} receiveShadow>
-        <planeGeometry args={[200, 200]} />
-        <meshStandardMaterial color={colors['karst-green']} />
-      </mesh>
-      {/* Trục đường tạm */}
-      <mesh rotation-x={-Math.PI / 2} position={[0, 0.01, 0]} receiveShadow>
-        <planeGeometry args={[120, 8]} />
-        <meshStandardMaterial color="#D9CBB0" />
-      </mesh>
+      <ZoneGround layout={layout} />
+      <Landmarks items={landmarks} />
+      <FlamboyantTrees positions={trees} />
 
-      {landmarks.map((l) => (
-        <mesh
-          key={l.id}
-          position={[l.position[0], l.position[1] + l.size[1] / 2, l.position[2]]}
-          rotation-y={l.rotationY}
-          castShadow
-          receiveShadow
-        >
-          <boxGeometry args={l.size} />
-          <meshStandardMaterial color={colorOf(l.color)} />
-        </mesh>
-      ))}
-
+      <LocalPlayer zone={ZONE} spawn={layout.spawn} />
+      <CameraDrag />
       <RemotePlayers />
-
-      <OrbitControls makeDefault maxPolarAngle={Math.PI / 2.2} minDistance={10} maxDistance={150} />
     </>
   )
 }

@@ -18,5 +18,16 @@ export default defineConfig({
     host: true,
     port: 5173,
     fs: { allow: ['..'] },
+    // Cho phép mở qua Tailscale Funnel (https://<máy>.<tailnet>.ts.net).
+    allowedHosts: ['.ts.net'],
+    // Server Colyseus đi chung địa chỉ với trang (/colyseus → ws://localhost:2567),
+    // để chỉ cần mở 1 cổng ra Internet và chạy được qua https.
+    proxy: {
+      '/colyseus': {
+        target: 'http://localhost:2567',
+        ws: true,
+        rewrite: (path) => path.replace(/^\/colyseus/, '') || '/',
+      },
+    },
   },
 })

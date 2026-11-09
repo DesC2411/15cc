@@ -1,5 +1,5 @@
 {
-  "_note": "Toạ độ là vị trí grey-box tạm (mét, gốc ở giữa khu), sẽ chỉnh ở giai đoạn 1. Thẻ Bí Mật đang là BẢN NHÁP, verified=false cho tới khi đối chiếu đủ 2 nguồn (CLAUDE.md mục 3.5, 4.2).",
+  "_note": "Toạ độ là vị trí grey-box tạm (mét, gốc ở giữa khu), chưa theo bản đồ thật. Mặt trước công trình là hướng +Z cục bộ (xoay theo rotationY); checkpoint nhận tem đặt trước mặt tiền. Thẻ Bí Mật đang là BẢN NHÁP, verified=false cho tới khi đối chiếu đủ 2 nguồn (CLAUDE.md mục 3.5, 4.2).",
   "landmarks": [
     {
       "id": "nha_hat_lon",
@@ -19,7 +19,7 @@
       "id": "buu_dien",
       "name": "Bưu điện Hải Phòng",
       "zone": "central",
-      "position": [40, 0, 10],
+      "position": [42, 0, -20],
       "rotationY": 0,
       "size": [24, 12, 16],
       "color": "colonial-cream",
@@ -33,7 +33,7 @@
       "id": "bao_tang",
       "name": "Bảo tàng Hải Phòng",
       "zone": "central",
-      "position": [-40, 0, 10],
+      "position": [-42, 0, -19],
       "rotationY": 0,
       "size": [22, 12, 14],
       "color": "brick-red",

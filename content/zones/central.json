@@ -1,0 +1,31 @@
+{
+  "_note": "Bố cục grey-box khu Trung tâm (mét, gốc ở giữa khu, +Y lên, -Z là hướng Nhà hát lớn). Toạ độ tạm, chưa theo bản đồ thật.",
+  "zone": "central",
+  "groundSize": 200,
+  "bounds": 95,
+  "spawn": [0, 0, 10],
+  "roads": [
+    { "id": "truc_dong_tay", "center": [0, 0], "size": [150, 10], "color": "road" },
+    { "id": "truc_nam_bac", "center": [0, 9], "size": [8, 54], "color": "road" },
+    { "id": "quang_truong_nha_hat", "center": [0, -14], "size": [40, 10], "color": "plaza" },
+    { "id": "san_buu_dien", "center": [42, -9], "size": [14, 6], "color": "plaza" },
+    { "id": "san_bao_tang", "center": [-42, -9], "size": [14, 6], "color": "plaza" },
+    { "id": "san_den_nghe", "center": [0, 35], "size": [14, 6], "color": "plaza" }
+  ],
+  "treeRows": [
+    { "from": [-70, -7], "to": [-24, -7], "spacing": 7 },
+    { "from": [24, -7], "to": [70, -7], "spacing": 7 },
+    { "from": [-70, 7], "to": [-8, 7], "spacing": 7 },
+    { "from": [8, 7], "to": [70, 7], "spacing": 7 },
+    { "from": [-6.5, 12], "to": [-6.5, 32], "spacing": 6.5 },
+    { "from": [6.5, 12], "to": [6.5, 32], "spacing": 6.5 }
+  ],
+  "blocks": [
+    { "center": [-28, 22], "size": [14, 9, 12], "color": "colonial-cream" },
+    { "center": [-50, 24], "size": [16, 14, 14], "color": "sun-yellow" },
+    { "center": [28, 22], "size": [14, 10, 12], "color": "sun-yellow" },
+    { "center": [50, 24], "size": [16, 8, 14], "color": "colonial-cream" },
+    { "center": [-22, -32], "size": [10, 10, 12], "color": "sun-yellow" },
+    { "center": [22, -32], "size": [10, 12, 12], "color": "colonial-cream" }
+  ]
+}

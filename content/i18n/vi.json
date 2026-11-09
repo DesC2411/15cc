@@ -8,5 +8,16 @@
   "zone.doson": "Đồ Sơn",
   "zone.catba": "Cát Bà – Lan Hạ",
   "zone.bachdang": "Bạch Đằng – Thuỷ Nguyên",
-  "zone.port": "Cảng biển"
+  "zone.port": "Cảng biển",
+  "hud.joystick": "Cần điều khiển",
+  "hud.jump": "Nhảy",
+  "hud.stamps": "Tem {have}/{total}",
+  "card.close": "Đóng",
+  "card.newStamp": "Nhận tem mới!",
+  "card.didYouKnow": "Có thể bạn chưa biết",
+  "card.secretPending": "Thẻ Bí Mật của địa điểm này đang được biên soạn. Quay lại sau nhé!",
+  "card.draftWarning": "Bản nháp, chưa kiểm chứng nguồn. Chỉ hiện ở bản phát triển.",
+  "card.directions": "Chỉ đường",
+  "card.bookTour": "Đặt tour",
+  "card.comingSoon": "Sắp có"
 }
