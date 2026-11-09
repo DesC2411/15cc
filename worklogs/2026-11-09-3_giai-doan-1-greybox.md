@@ -1,6 +1,6 @@
-## 2026-11-09 — Giai đoạn 1: grey-box khu Trung tâm
+## 2026-11-09 — Giai đoạn 1 (grey-box khu Trung tâm) + Giai đoạn 2 (multiplayer, chat)
 
-**Giai đoạn:** 1 · **Khu:** central
+**Giai đoạn:** 1 → 2 · **Khu:** central
 
 **Đã làm:**
 - Người dùng yêu cầu "tiếp giai đoạn 2", nhưng worklog cho thấy giai đoạn 1 chưa làm. Đã hỏi, người dùng chọn **làm trọn giai đoạn 1 trước**.
@@ -31,7 +31,49 @@
 - Kiểm tra: DNS công khai (dns.google, Cloudflare) trỏ về relay 103.84.155.x. Gọi trang và matchmake qua relay đều trả 200. Test 2 tab headless trên link https thấy "2 người", không lỗi.
 - Lưu ý: đây là server dev, ai có link đều đọc được mã nguồn client và `content/` (Vite vẫn chặn `.env`). Link chỉ sống khi máy bật và `npm run dev` đang chạy.
 
-**Quyết định & lý do:**
+**Giai đoạn 1 đã commit:** `8b6154b` (người dùng đồng ý).
+
+---
+
+### Giai đoạn 2: multiplayer, chat
+
+**Đã làm:**
+- `shared/protocol.ts` (+ `shared/package.json`): tên tin nhắn, kiểu dữ liệu, giới hạn dùng chung client/server. Client import `@shared/protocol` (alias Vite + paths), server import tương đối. Server `tsconfig` đổi `rootDir: ".."` → build ra `server/dist/server/src/index.js` (đã sửa script `start`).
+- **Nội suy** (`client/src/net/interpolation.ts`): mỗi patch có thay đổi lưu snapshot kèm giờ nhận, vẽ trễ 150 ms và nội suy giữa 2 snapshot. Nếu người kia đứng yên lâu rồi mới đi, chèn bản sao vị trí cũ để không bị trượt chậm. `connection.ts` đẩy vị trí vào bộ đệm. Store React chỉ cập nhật khi có người vào/ra hoặc đổi tên/màu, nên 20 patch/giây không làm React render lại.
+- Người chơi có `name` ("Lữ khách 123", tiền tố trong `content/chat.json`) và `look` (7 màu theo bảng màu) trong schema. `Avatar` dùng chung cho mình và người khác, nhún theo `walk`/`run`. Nhãn tên + bong bóng chat/emote trên đầu (`Overhead`), ẩn khi xa hơn 30 m.
+- **Chat server** (`server/src/chat/`):
+  - `profanity.ts`: lọc nguyên từ / cụm từ. Chuẩn hoá chữ thường, bỏ ký tự chèn (`. * _ - !`), đổi leet, gộp chữ lặp. Dạng gộp chỉ dùng khi còn ≥ 2 ký tự (tránh `cc` → `c` che nhầm chữ "c"). Danh sách ở `content/chat_filter.json`, có ghi rõ các dạng không dấu KHÔNG được thêm vì trùng từ thường (lon/lớn, cac/các, buoi/buổi, du/du lịch, deo/đeo, ngu/ngủ).
+  - `moderation.ts`: 1 tin / 1,5 giây, emote 1 / giây, che 3 lần trong 60 giây → khoá chat 60 giây. Báo cáo lưu `server/logs/reports.jsonl` (đã gitignore), kèm 5 tin gần nhất của người bị báo cáo.
+  - `ZoneRoom.ts`: tin `chat` / `quick` / `emote` / `report` / `notice`. Câu có sẵn và emote gửi bằng id, server kiểm tra id có trong `content/chat.json`. Bật `CHAT_QUICK_ONLY=1` thì phòng chỉ cho câu có sẵn (`state.quickOnly`). Server đọc `content/` lúc chạy (`server/src/content.ts`, tự tìm thư mục hoặc dùng `CONTENT_DIR`).
+- **Chat client:** `systems/chat.ts` (store: lịch sử 60 tin, bong bóng, danh sách chặn, tin chưa đọc, tuỳ chọn "Chỉ dùng câu có sẵn" lưu localStorage). `components/ui/chat/`: nút 💬 (có số tin chưa đọc, Enter trên máy tính cũng mở), bảng chat (lịch sử, emote, câu có sẵn, ô nhập, ⋯ → Chặn/Báo cáo), dòng tin nổi mờ dần, thông báo ngắn. Mọi chữ nằm trong `vi.json` (`chat.*`, `notice.*`).
+- Hook gỡ lỗi `window.__pdpl` chỉ có ở bản dev (`main.tsx`); đã kiểm tra không có trong bản build.
+- Test: `npm test` (gốc) → `server/src/chat/profanity.test.ts` (5 test, gồm danh sách câu thường không được che nhầm) + `server/src/rooms/ZoneRoom.test.ts` (test tích hợp: chạy server thật ở cổng 2611/2612, kiểm tra lọc, giới hạn tốc độ, id sai, khoá chat, chế độ chỉ câu có sẵn). Thêm `@colyseus/sdk` vào devDependencies của server.
+
+**Kiểm tra giai đoạn 2:**
+- `typecheck`, `oxlint`, `build`, `npm test` (7/7) đều qua.
+- 2 cửa sổ Chrome headless, khung 375×812 (script CDP ở scratchpad):
+  - Thấy tên nhau. B ghi vị trí đã nội suy của A mỗi khung hình trong lúc A đi: **0 khung đứng khựng giữa lúc di chuyển**, có thấy cả `idle` và `walk`. Tốc độ giữa các khung chưa đều (p10 1,2 – trung vị 3,5 – p90 6,0 m/s), một phần do A chạy bằng render phần mềm nên bước đi của A không đều. Cần xem lại trên máy thật.
+  - A gửi câu có sẵn → B thấy bong bóng + dòng tin nổi + số chưa đọc. Gửi tiếp ngay → "Gửi chậm lại một chút nhé!". Gõ "đm vcl, Nhà hát lớn đẹp quá!" → B thấy "** ***, Nhà hát lớn đẹp quá!", A nhận thông báo bị che. Emote 👋 hiện trên đầu A ở màn B.
+  - B bật "Chỉ dùng câu có sẵn": tin gõ tay bị ẩn, ô nhập biến mất. B báo cáo A → "Đã gửi báo cáo", file `reports.jsonl` có dòng đúng. B chặn A → tin cũ và tin mới của A đều ẩn, không còn bong bóng.
+  - Console chỉ có 2 cảnh báo thư viện như cũ.
+- Link công khai Funnel vẫn chạy với code mới (trang và matchmake đều 200).
+
+**Lỗi tìm ra và đã sửa trong lúc test:**
+- Đứng sát tường Nhà hát thì nhân vật nằm đúng mép vòng nhận tem (vòng chạm tường) → nhích nhẹ là thẻ tự mở lại sau khi đóng. Sửa: mép trong vòng cách tường 1 m (`CHECKPOINT_GAP = bán kính + 1`) và vùng đệm 1 m khi ra (`EXIT_MARGIN`). Chạy lại 2 lần đều đúng.
+- Bong bóng chat bị co hẹp (3 dòng cho câu ngắn) → `width: max-content`. Màu `colonial-cream` gần trùng màu sân → đổi sang `langur-black`.
+- Gọi hook có điều kiện (`a || useNetStore(...)`) trong `Overhead`, đã tách ra.
+
+**Vận hành / tiến trình:**
+- Vite dev cũ (18:50) không tự nạp alias `@shared` mới, phải `touch client/vite.config.ts`. Hai `tsx watch` cũ (của phiên trước và bản lỡ mở lúc 19:38) bị treo sau khi server crash lúc đang sửa code dở, không tự chạy lại. Đã chạy **server dev mới ở nền trong phiên Claude này** (cổng 2567). Khi tắt phiên Claude, server này có thể tắt theo, lúc đó cần chạy lại `npm run dev`. Các tiến trình node thừa (khởi động 18:50 và 19:38) người dùng nên tự tắt rồi chạy lại `npm run dev` cho sạch.
+
+**Quyết định & lý do (giai đoạn 2):**
+- Câu có sẵn gửi bằng **id**, mỗi máy tự dịch sang ngôn ngữ của mình (chuẩn bị cho tiếng Anh).
+- Lọc từ ở **server** (client có thể bị sửa). Người gửi vẫn thấy bản đã che của chính mình.
+- "Chỉ dùng câu có sẵn" có 2 tầng: tuỳ chọn của từng người (client: không gõ, không xem chữ tự gõ) và chế độ cả phòng (server, `CHAT_QUICK_ONLY=1`).
+- Chặn chỉ trong phiên (chưa có tài khoản). Báo cáo tạm ghi file, sau chuyển Supabase.
+- Không làm dự đoán phía client cho người khác (extrapolation): người khác hiện trễ ~150 ms là chấp nhận được với game dạo chơi.
+
+**Quyết định & lý do (giai đoạn 1):**
 - Kiểm tra checkpoint bằng khoảng cách trong JS, không dùng sensor của Rapier: Rapier mặc định không báo va chạm giữa body kinematic và fixed, và với vài landmark mỗi khu thì tính khoảng cách là đủ rẻ, dễ đoán.
 - `timeStep="vary"` và vẽ nhân vật tách khỏi RigidBody: camera, nhân vật và vật lý luôn cùng một vị trí, không giật do nội suy.
 - Thẻ Bí Mật mở lại mỗi lần bước vào vòng (tem chỉ cộng lần đầu).
@@ -46,10 +88,13 @@
 
 **Việc dở dang / bước tiếp theo:**
 - [ ] Người dùng kiểm tra FPS trên điện thoại thật (`http://<IP-máy>:5173`) và Chrome thường. Khi đó mới tick mục "FPS ổn định" của giai đoạn 1.
-- [ ] Commit giai đoạn 1 (chờ người dùng đồng ý).
-- [ ] Giai đoạn 2: nội suy vị trí người chơi khác, chat có lọc từ bậy + câu chat có sẵn, emote; dùng chung kiểu schema giữa client và server.
+- [x] Commit giai đoạn 1 (`8b6154b`).
+- [ ] Commit giai đoạn 2 (chờ người dùng đồng ý).
+- [ ] Kiểm tra giai đoạn 2 trên máy thật: 2 thiết bị qua link công khai, xem chuyển động có mượt không, bàn phím ảo điện thoại khi gõ chat.
+- [ ] Danh sách từ bậy nên được người Việt duyệt thêm (đặc biệt tiếng lóng mới, cách viết lách lọc). Chưa lọc tên người chơi vì tên đang do server đặt.
+- [ ] Chưa test giao diện với 30–50 người cùng lúc (mỗi người một nhãn HTML, có thể nặng trên điện thoại yếu).
 - [ ] Màn hình loading + tách chunk Rapier/three.
 - [ ] Tra nguồn Thẻ Bí Mật 4 landmark, đặt toạ độ theo bản đồ thật (mục 4).
 - [ ] Còn từ phiên trước: sửa 2 chỗ chưa khớp trong `CLAUDE.md`; người dùng tự cài `git config user.name/email`.
 
-**Asset & nội dung:** chưa có asset. Mới: `content/zones/central.json`, khoá i18n `hud.*`, `card.*`. Mọi landmark vẫn `verified: false`.
+**Asset & nội dung:** chưa có asset. Mới: `content/zones/central.json`, `content/chat.json` (10 câu có sẵn, 6 emote), `content/chat_filter.json`, khoá i18n `hud.*`, `card.*`, `chat.*`, `notice.*`. Mọi landmark vẫn `verified: false`.

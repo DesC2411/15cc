@@ -1,5 +1,17 @@
 import { Client, type Room } from '@colyseus/sdk'
-import { useNetStore, type RemotePlayer } from './netStore'
+import {
+  MOVE_SEND_INTERVAL_MS,
+  MSG,
+  type Anim,
+  type ChatBroadcast,
+  type EmoteBroadcast,
+  type MoveRequest,
+  type Notice,
+  type ReportReason,
+} from '@shared/protocol'
+import { useNetStore, type PlayerInfo } from './netStore'
+import { clearPoses, pushPose, removePose } from './interpolation'
+import { useChatStore } from '../systems/chat'
 
 /**
  * Mặc định nối qua cùng địa chỉ với trang, đường dẫn /colyseus (Vite chuyển tiếp sang server 2567),
@@ -15,51 +27,70 @@ interface PlayerLike {
   z: number
   rotY: number
   anim: string
+  name: string
+  look: number
 }
 interface ZoneStateLike {
+  quickOnly: boolean
   players: { forEach(cb: (p: PlayerLike, id: string) => void): void }
 }
 
-function snapshot(state: ZoneStateLike): Record<string, RemotePlayer> {
-  const out: Record<string, RemotePlayer> = {}
-  state.players.forEach((p, id) => {
-    out[id] = { x: p.x, y: p.y, z: p.z, rotY: p.rotY, anim: p.anim }
-  })
-  return out
-}
-
-/**
- * Vào phòng của một khu. Trả về hàm rời phòng (dùng làm cleanup của useEffect).
- * Hiện chỉ chép state về store mỗi lần server gửi patch. Nội suy làm ở giai đoạn 2.
- */
 let activeRoom: Room | null = null
 
-export interface MoveState {
-  x: number
-  y: number
-  z: number
-  rotY: number
-  anim: 'idle' | 'walk' | 'run'
-}
+// ---------- Gửi ----------
 
-/** Gửi vị trí tối đa 10 lần/giây, chỉ khi có thay đổi. */
-const SEND_INTERVAL_MS = 100
 let lastSentAt = 0
 let lastSent = ''
 
-export function sendMove(m: MoveState) {
+/** Gửi vị trí tối đa 10 lần/giây, chỉ khi có thay đổi. */
+export function sendMove(m: MoveRequest) {
   if (!activeRoom) return
   const now = performance.now()
-  if (now - lastSentAt < SEND_INTERVAL_MS) return
+  if (now - lastSentAt < MOVE_SEND_INTERVAL_MS) return
   const r = (n: number) => Math.round(n * 100) / 100
-  const msg = { x: r(m.x), y: r(m.y), z: r(m.z), rotY: r(m.rotY), anim: m.anim }
+  const msg: MoveRequest = { x: r(m.x), y: r(m.y), z: r(m.z), rotY: r(m.rotY), anim: m.anim }
   const key = `${msg.x},${msg.y},${msg.z},${msg.rotY},${msg.anim}`
   if (key === lastSent) return
-  activeRoom.send('move', msg)
+  activeRoom.send(MSG.move, msg)
   lastSentAt = now
   lastSent = key
 }
 
+export const sendChat = (text: string) => activeRoom?.send(MSG.chat, { text })
+export const sendQuick = (id: string) => activeRoom?.send(MSG.quick, { id })
+export const sendEmote = (id: string) => activeRoom?.send(MSG.emote, { id })
+export const sendReport = (target: string, reason: ReportReason) => activeRoom?.send(MSG.report, { target, reason })
+
+// ---------- Nhận ----------
+
+/** Đồng bộ state server → bộ đệm nội suy (mỗi patch) và store React (chỉ khi có người vào/ra, đổi tên/màu). */
+function applyState(state: ZoneStateLike, myId: string) {
+  const net = useNetStore.getState()
+  const prev = net.players
+  const next: Record<string, PlayerInfo> = {}
+  let changed = false
+
+  state.players.forEach((p, id) => {
+    const info = prev[id]
+    if (info && info.name === p.name && info.look === p.look) next[id] = info
+    else {
+      next[id] = { name: p.name, look: p.look }
+      changed = true
+    }
+    if (id !== myId) pushPose(id, { x: p.x, y: p.y, z: p.z, rotY: p.rotY, anim: p.anim as Anim })
+  })
+  for (const id of Object.keys(prev)) {
+    if (!(id in next)) {
+      changed = true
+      removePose(id)
+      useChatStore.getState().forgetPlayer(id)
+    }
+  }
+  if (changed) net.setPlayers(next)
+  if (net.quickOnly !== state.quickOnly) net.setQuickOnly(state.quickOnly)
+}
+
+/** Vào phòng của một khu. Trả về hàm rời phòng (dùng làm cleanup của useEffect). */
 export function joinZone(zone: string): () => void {
   const store = useNetStore.getState()
   let room: Room | null = null
@@ -79,9 +110,13 @@ export function joinZone(zone: string): () => void {
       lastSent = ''
       useNetStore.getState().setSession(zone, r.sessionId)
       useNetStore.getState().setStatus('connected')
-      r.onStateChange((state) => useNetStore.getState().setPlayers(snapshot(state)))
+      r.onStateChange((state) => applyState(state, r.sessionId))
+      r.onMessage(MSG.chat, (msg: ChatBroadcast) => useChatStore.getState().receive(msg, msg.from === r.sessionId))
+      r.onMessage(MSG.emote, (msg: EmoteBroadcast) => useChatStore.getState().emote(msg.from, msg.id))
+      r.onMessage(MSG.notice, (n: Notice) => useChatStore.getState().setNotice(n.code, n.seconds))
       r.onLeave(() => {
         if (activeRoom === r) activeRoom = null
+        clearPoses()
         useNetStore.getState().reset()
       })
       r.onError((code, message) => {
@@ -99,6 +134,8 @@ export function joinZone(zone: string): () => void {
     cancelled = true
     if (room) void room.leave()
     if (activeRoom === room) activeRoom = null
+    clearPoses()
     useNetStore.getState().reset()
+    useChatStore.getState().reset()
   }
 }

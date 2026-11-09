@@ -1,0 +1,11 @@
+{
+  "_note": "Danh sách từ bị che trong chat (server đọc khi khởi động). So khớp NGUYÊN TỪ sau khi: viết thường, bỏ ký tự chèn giữa (. * _ - !), đổi số kiểu leet (0→o, 1→i, 3→e, 4→a, @→a, $→s), gộp chữ lặp (vcllll → vcl). Có dấu và không dấu là 2 mục riêng. KHÔNG thêm dạng không dấu dễ trùng từ thường: 'lon' (lớn), 'cac' (các), 'buoi' (buổi), 'du' (du lịch), 'deo' (đeo), 'ngu' (ngủ).",
+  "words": [
+    "địt", "đjt", "djt", "đụ", "đéo", "đếch", "lồn", "loz", "cặc", "buồi", "đĩ", "điếm",
+    "đm", "dm", "đmm", "dmm", "đcm", "dcm", "đkm", "dkm", "dmc", "đmc", "cmm", "clm", "cl", "cc", "vl", "vcl", "vkl", "vcc", "vcd", "đù", "dume", "đume",
+    "fuck", "fucking", "fucker", "fck", "fuk", "wtf", "shit", "bitch", "asshole", "dick", "cunt", "motherfucker", "bastard", "nigger", "nigga", "faggot", "slut", "whore"
+  ],
+  "phrases": [
+    "đù má", "đụ má", "địt mẹ", "đéo mẹ", "óc chó", "óc lợn", "chó chết", "đồ ngu", "thằng ngu", "con ngu", "đồ chó", "thằng chó", "con chó cái", "đồ khốn", "thằng khốn"
+  ]
+}

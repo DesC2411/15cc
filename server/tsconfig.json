@@ -1,11 +1,15 @@
 {
   "compilerOptions": {
     "target": "es2023",
-    "lib": ["ES2023"],
+    "lib": [
+      "ES2023"
+    ],
     "module": "nodenext",
     "moduleResolution": "nodenext",
-    "types": ["node"],
-    "rootDir": "src",
+    "types": [
+      "node"
+    ],
+    "rootDir": "..",
     "outDir": "dist",
     "strict": true,
     "noUnusedLocals": true,
@@ -18,5 +22,11 @@
     "skipLibCheck": true,
     "sourceMap": true
   },
-  "include": ["src"]
+  "include": [
+    "src",
+    "../shared"
+  ],
+  "exclude": [
+    "src/**/*.test.ts"
+  ]
 }

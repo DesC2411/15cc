@@ -1,0 +1,13 @@
+{
+  "_note": "Câu chat có sẵn và emote. Client gửi id, server kiểm tra id có trong danh sách, chữ hiển thị lấy từ content/i18n/<ngôn ngữ>.json (khoá chat.quick.<id>, chat.emote.<id>).",
+  "guestNamePrefix": "Lữ khách",
+  "quickPhrases": ["hello", "go_together", "follow_me", "wait", "thanks", "beautiful", "photo", "meet_theatre", "banh_da_cua", "bye"],
+  "emotes": [
+    { "id": "wave", "icon": "👋" },
+    { "id": "heart", "icon": "❤️" },
+    { "id": "laugh", "icon": "😂" },
+    { "id": "clap", "icon": "👏" },
+    { "id": "wow", "icon": "😮" },
+    { "id": "phuong", "icon": "🌺" }
+  ]
+}

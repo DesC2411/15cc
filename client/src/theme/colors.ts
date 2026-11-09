@@ -18,3 +18,18 @@ export type ColorToken = keyof typeof colors
 export function colorOf(token: string): string {
   return token in colors ? colors[token as ColorToken] : colors['langur-black']
 }
+
+/** Màu nhân vật tạm theo `look` server gán (LOOK_COUNT = 7 trong shared/protocol.ts). */
+const LOOK_TOKENS: ColorToken[] = [
+  'phuong-red',
+  'langur-orange',
+  'sea-teal',
+  'bay-blue',
+  'sun-yellow',
+  'brick-red',
+  'langur-black',
+]
+
+export function lookColor(look: number): string {
+  return colors[LOOK_TOKENS[look % LOOK_TOKENS.length] ?? 'phuong-red']
+}

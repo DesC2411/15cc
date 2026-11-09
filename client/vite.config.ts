@@ -3,6 +3,7 @@ import react from '@vitejs/plugin-react'
 import { defineConfig } from 'vite'
 
 const contentDir = fileURLToPath(new URL('../content', import.meta.url))
+const sharedDir = fileURLToPath(new URL('../shared', import.meta.url))
 
 // https://vite.dev/config/
 export default defineConfig({
@@ -11,6 +12,8 @@ export default defineConfig({
     alias: {
       // Dữ liệu nội dung dùng chung ở thư mục gốc (CLAUDE.md mục 8).
       '@content': contentDir,
+      // Kiểu và hằng số giao thức dùng chung với server.
+      '@shared': sharedDir,
     },
   },
   server: {

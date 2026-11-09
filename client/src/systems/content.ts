@@ -49,7 +49,8 @@ export function canShowSecret(l: Landmark): boolean {
 
 /** Bán kính vùng nhận tem (mét) và khoảng cách từ mặt tiền tới tâm vùng. */
 export const CHECKPOINT_RADIUS = 2.5
-const CHECKPOINT_GAP = 3
+/** Mép trong của vòng cách tường 1 m, để người đứng sát tường không nằm đúng mép vòng. */
+const CHECKPOINT_GAP = CHECKPOINT_RADIUS + 1
 
 /**
  * Tâm vùng nhận tem: đặt trước mặt tiền (hướng +Z cục bộ của công trình, xoay theo rotationY).

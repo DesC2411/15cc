@@ -5,6 +5,8 @@ dist/
 .env.*
 !.env.example
 *.log
+# Báo cáo chat của người chơi (có thể chứa nội dung nhạy cảm)
+server/logs/
 .DS_Store
 Thumbs.db
 

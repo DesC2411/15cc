@@ -1,18 +1,23 @@
 import { useEffect, useMemo, useRef } from 'react'
 import { useFrame, useThree } from '@react-three/fiber'
 import { CapsuleCollider, RigidBody, useRapier, type RapierCollider, type RapierRigidBody } from '@react-three/rapier'
-import { Vector3, type Group } from 'three'
-import { colors } from '../../theme/colors'
+import { Vector3, type Group, type Mesh } from 'three'
+import type { Anim } from '@shared/protocol'
+import { lookColor } from '../../theme/colors'
 import { cameraControl, input, readMove } from '../../systems/input'
 import { createCheckpointTracker } from '../../systems/checkpoints'
 import { sendMove } from '../../net/connection'
 import { localPlayer } from '../../systems/playerState'
 import type { Vec3 } from '../../systems/content'
-
-/** Kích thước capsule tạm: cao 1,8 m (CLAUDE.md mục 3.3: 1 unit = 1 m). */
-const RADIUS = 0.4
-const HALF_HEIGHT = 0.5
-const CENTER_Y = HALF_HEIGHT + RADIUS
+import { useNetStore } from '../../net/netStore'
+import { Avatar } from './Avatar'
+import {
+  AVATAR_CENTER_Y as CENTER_Y,
+  AVATAR_HALF_HEIGHT as HALF_HEIGHT,
+  AVATAR_RADIUS as RADIUS,
+  bobOffset,
+} from './avatarShape'
+import { Overhead } from './Overhead'
 
 const WALK_SPEED = 4.5
 const RUN_SPEED = 8
@@ -36,6 +41,9 @@ export function LocalPlayer({ zone, spawn }: Props) {
   const body = useRef<RapierRigidBody>(null)
   const collider = useRef<RapierCollider>(null)
   const avatar = useRef<Group>(null)
+  const avatarBody = useRef<Mesh>(null)
+  const myId = useNetStore((s) => s.sessionId)
+  const me = useNetStore((s) => (s.sessionId ? s.players[s.sessionId] : undefined))
   const { world, rapier } = useRapier()
   const camera = useThree((s) => s.camera)
 
@@ -59,7 +67,7 @@ export function LocalPlayer({ zone, spawn }: Props) {
   const tmp = useMemo(() => ({ target: new Vector3(), desired: new Vector3() }), [])
   const rayRef = useRef<InstanceType<typeof rapier.Ray> | null>(null)
 
-  useFrame((_, rawDt) => {
+  useFrame(({ clock }, rawDt) => {
     const b = body.current
     const c = collider.current
     const controller = controllerRef.current
@@ -104,10 +112,12 @@ export function LocalPlayer({ zone, spawn }: Props) {
     }
     b.setNextKinematicTranslation(next)
 
+    const anim: Anim = speed < 0.1 ? 'idle' : mv.run ? 'run' : 'walk'
     if (avatar.current) {
-      avatar.current.position.set(next.x, next.y, next.z)
+      avatar.current.position.set(next.x, next.y - CENTER_Y, next.z)
       avatar.current.rotation.y = m.rotY
     }
+    if (avatarBody.current) avatarBody.current.position.y = CENTER_Y + (m.grounded ? bobOffset(anim, clock.elapsedTime) : 0)
 
     localPlayer.x = next.x
     localPlayer.y = next.y - CENTER_Y
@@ -115,7 +125,6 @@ export function LocalPlayer({ zone, spawn }: Props) {
 
     // --- Tem, mạng ---
     checkpoints(next.x, next.z)
-    const anim = speed < 0.1 ? 'idle' : mv.run ? 'run' : 'walk'
     sendMove({ x: next.x, y: next.y - CENTER_Y, z: next.z, rotY: m.rotY, anim })
 
     // --- Camera đi theo, không chui vào tường ---
@@ -146,16 +155,10 @@ export function LocalPlayer({ zone, spawn }: Props) {
         <CapsuleCollider ref={collider} args={[HALF_HEIGHT, RADIUS]} />
       </RigidBody>
 
-      {/* Nhân vật tạm: capsule đỏ phượng, chấm vàng ở phía trước để biết hướng. */}
-      <group ref={avatar} position={[spawn[0], spawn[1] + CENTER_Y, spawn[2]]}>
-        <mesh castShadow>
-          <capsuleGeometry args={[RADIUS, HALF_HEIGHT * 2, 4, 12]} />
-          <meshStandardMaterial color={colors['phuong-red']} />
-        </mesh>
-        <mesh position={[0, 0.45, RADIUS - 0.05]}>
-          <sphereGeometry args={[0.12, 8, 8]} />
-          <meshStandardMaterial color={colors['sun-yellow']} />
-        </mesh>
+      {/* Màu theo `look` server gán, giống màu người khác nhìn thấy mình. */}
+      <group ref={avatar} position={spawn}>
+        <Avatar color={lookColor(me?.look ?? 0)} bodyRef={avatarBody} />
+        {myId && me && <Overhead id={myId} name={me.name} isMe />}
       </group>
     </>
   )

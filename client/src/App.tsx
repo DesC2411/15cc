@@ -6,6 +6,8 @@ import { NetStatusBadge } from './components/ui/NetStatusBadge'
 import { StampCounter } from './components/ui/StampCounter'
 import { TouchControls } from './components/ui/TouchControls'
 import { SecretCard } from './components/ui/SecretCard'
+import { ChatPanel } from './components/ui/chat/ChatPanel'
+import { ChatButton, ChatFeed, ChatNotice } from './components/ui/chat/ChatHud'
 import { joinZone } from './net/connection'
 import { bindKeyboard } from './systems/input'
 
@@ -28,6 +30,10 @@ export default function App() {
       <NetStatusBadge />
       <StampCounter zone={ZONE} />
       <TouchControls />
+      <ChatFeed />
+      <ChatButton />
+      <ChatNotice />
+      <ChatPanel />
       <SecretCard />
     </>
   )
