@@ -89,7 +89,7 @@
 **Việc dở dang / bước tiếp theo:**
 - [ ] Người dùng kiểm tra FPS trên điện thoại thật (`http://<IP-máy>:5173`) và Chrome thường. Khi đó mới tick mục "FPS ổn định" của giai đoạn 1.
 - [x] Commit giai đoạn 1 (`8b6154b`).
-- [ ] Commit giai đoạn 2 (chờ người dùng đồng ý).
+- [x] Commit giai đoạn 2 (`05edcdd`, người dùng đồng ý).
 - [ ] Kiểm tra giai đoạn 2 trên máy thật: 2 thiết bị qua link công khai, xem chuyển động có mượt không, bàn phím ảo điện thoại khi gõ chat.
 - [ ] Danh sách từ bậy nên được người Việt duyệt thêm (đặc biệt tiếng lóng mới, cách viết lách lọc). Chưa lọc tên người chơi vì tên đang do server đặt.
 - [ ] Chưa test giao diện với 30–50 người cùng lúc (mỗi người một nhãn HTML, có thể nặng trên điện thoại yếu).
